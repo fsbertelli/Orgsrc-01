@@ -17,6 +17,6 @@ O sistema visa fornecer uma solução simples e eficiente para o gerenciamento d
 
 * Linguagem: C++
 * Ferramentas de Desenvolvimento:
-  * IDE: Visual Studio Code
+  * IDE: Visual Studio 2022
   * Compilador: GCC
   * Git para controle de versão
