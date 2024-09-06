@@ -13,7 +13,7 @@ O sistema visa fornecer uma solução simples e eficiente para o gerenciamento d
 * Cadastro de fornecedores.
 * Registro de vendas e relatórios de desempenho.
 
-##Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 * Linguagem: C++
 * Ferramentas de Desenvolvimento:
