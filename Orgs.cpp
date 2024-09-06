@@ -5,19 +5,23 @@
               rltClientes ->
 */
 #include <iostream>
+#include "Caixa.h"
 #include "Estoque.h"
+#include "Header.h"
+
 
 
 int main()
 {
+    header();
     int chosen;
     setlocale(LC_ALL, "portuguese");
-    cout << "ORGS SSH SERVER/CLIENT - CHOOSE YOUR STATION:\n\n1 - SERVIDOR\n2 - CAIXA\n3 - ESTOQUE" << endl;
+    cout << "\nCHOOSE YOUR STATION:\n\n1 - SERVIDOR\n2 - CAIXA\n3 - ESTOQUE" << endl;
     cin >> chosen;
     switch (chosen)
     {
     case 1:
-        cout << "SERVER";
+        printCaixa();
     default:
         break;
     }
