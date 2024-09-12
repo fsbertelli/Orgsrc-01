@@ -52,6 +52,7 @@ void efetuarVenda() {
     outFile.close();
     cout << "Venda registrada com sucesso no arquivo vendas.txt" << endl;
     //TODO Listar produto e buscar o preço qty * price
+    system("exit");
 }
 
 #pragma once
