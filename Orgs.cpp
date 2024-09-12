@@ -92,7 +92,7 @@ int main()
 				switch (option)
 				{
 				case '1':
-					cout << "Cadastrar Produto";
+					cadastraProduto();
 					break;
 				case '2':
 					cout << "Cadastrar Fornecedor";

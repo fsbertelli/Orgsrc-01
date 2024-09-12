@@ -20,19 +20,36 @@ void printCaixa() {
     cout << "248 of these updates are standard security updates.\n";
     cout << "To see these additional updates run: apt list --upgradable\n\n";
 
-    cout << "  #####     #    ###  #     #    #    \n";
-    cout << " #     #   # #    #   #   #    # #    \n";
-    cout << " #        #   #   #    # #    #   #   \n";
-    cout << " #       #     #  #     #    #     #  \n";
-    cout << " #       #######  #    # #   #######  \n";
-    cout << " #     # #     #  #   #   #  #     #  \n";
-    cout << "  #####  #     # ### #     # #     #  \n";
+    cout << " #####     #    ###  #     #    #    \n";
+    cout << "#     #   # #    #   #   #    # #    \n";
+    cout << "#        #   #   #    # #    #   #   \n";
+    cout << "#       #     #  #     #    #     #  \n";
+    cout << "#       #######  #    # #   #######  \n";
+    cout << "#     # #     #  #   #   #  #     #  \n";
+    cout << " #####  #     # ### #     # #     #  \n";
 
     auto now = chrono::system_clock::now();
     time_t now_c = chrono::system_clock::to_time_t(now);
     tm local_tm;
     localtime_s(&local_tm, &now_c);
     cout << "\nLast login: " << put_time(&local_tm, "%a %b %d %H:%M:%S %Y") << " from 127.0.0.1\n";
+}
+void cadastraCliente() {
+    ofstream outFile("clientes.txt", ios::app);
+    string nomeCliente, codCliente, cpfCliente;
+    cout << "Cadastro de Cliente\n";
+    cout << "Informe o código do Cliente (Histograma Face Recognition): ";
+    cin >> codCliente;
+    cout << "Informe o nome do  Cliente: ";
+    cin >> nomeCliente;
+    cout << "Informe o CPF do cliente: ";
+    cin >> cpfCliente;
+    if (!outFile) {
+        cerr << "Falha ao cadastrar cliente." << endl;
+    }
+    outFile << codCliente << "," << nomeCliente << "," << cpfCliente << endl;
+    outFile.close();
+    cout << "\nO cliente registrado com sucesso no arquivo clientes.txt" << endl;
 }
 
 void efetuarVenda() {

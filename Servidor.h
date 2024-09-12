@@ -19,10 +19,13 @@ void printServidor() {
     cout << "432 updates can be applied immediately.\n";
     cout << "248 of these updates are standard security updates.\n";
     cout << "To see these additional updates run: apt list --upgradable\n\n";
-    cout << "  Estou no Servidor! \n";
-
-
-
+    cout << "#####  ####### ######  #     # ### ######  ####### ######  " << endl;
+    cout << "#     # #       #     # #     #  #  #     # #     # #     # " << endl;
+    cout << "#       #       #     # #     #  #  #     # #     # #     # " << endl;
+    cout << " #####  #####   ######  #     #  #  #     # #     # ######  " << endl;
+    cout << "      # #       #   #    #   #   #  #     # #     # #   #   " << endl;
+    cout << "#     # #       #    #    # #    #  #     # #     # #    #  " << endl;
+    cout << " #####  ####### #     #    #    ### ######  ####### #     # " << endl;
     auto now = chrono::system_clock::now();
     time_t now_c = chrono::system_clock::to_time_t(now);
     tm local_tm;
