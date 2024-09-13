@@ -19,7 +19,6 @@ void printCaixa() {
     cout << "432 updates can be applied immediately.\n";
     cout << "248 of these updates are standard security updates.\n";
     cout << "To see these additional updates run: apt list --upgradable\n\n";
-
     cout << " #####     #    ###  #     #    #    \n";
     cout << "#     #   # #    #   #   #    # #    \n";
     cout << "#        #   #   #    # #    #   #   \n";
@@ -34,6 +33,7 @@ void printCaixa() {
     localtime_s(&local_tm, &now_c);
     cout << "\nLast login: " << put_time(&local_tm, "%a %b %d %H:%M:%S %Y") << " from 127.0.0.1\n";
 }
+
 void cadastraCliente() {
     ofstream outFile("clientes.txt", ios::app);
     string nomeCliente, codCliente, cpfCliente;

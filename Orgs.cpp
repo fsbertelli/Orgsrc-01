@@ -95,7 +95,7 @@ int main()
 					cadastraProduto();
 					break;
 				case '2':
-					cout << "Cadastrar Fornecedor";
+					cadastraFornecedor();
 					break;
 				case '0':
 					system("cls");

@@ -6,7 +6,6 @@
 #include <cstdlib> 
 #include <vector>
 #include <sstream>
-#include <iomanip> // Para std::fixed e std::setprecision
 
 using namespace std;
 
@@ -37,7 +36,6 @@ void printEstoque() {
 	localtime_s(&local_tm, &now_c);
 	cout << "\nLast login: " << put_time(&local_tm, "%a %b %d %H:%M:%S %Y") << " from 127.0.0.1\n";
 }
-
 
 /*
 ----vector<string>----
@@ -88,11 +86,12 @@ void cadastraProduto() {
 	int qtyProduto;
 	float precoProduto, pesoProduto;
 
-	cout << "\nInforme o código do produto: " << endl;
+	cin.ignore();
+	cout << "\nInforme o código do produto: ";
 	cin >> codProduto;
-	cout << "Informe a descrição do produto: " << endl;
-	cin >> descProduto;
-	cout << "Informe a quantidade de produto: " << endl;
+	cout << "Informe a descrição do produto: ";
+	getline(cin, descProduto);
+	cout << "Informe a quantidade de produto: ";
 	while (true) {
 		cin >> qtyProduto;
 		if (cin.fail()) {
@@ -173,6 +172,70 @@ void cadastraProduto() {
 	system("cls");
 }
 
+vector<string> carregarFornecedores(const string& arquivoTexto) {
+	vector<string> fornecedores;
+	ifstream lerArquivo(arquivoTexto);
+	if (!lerArquivo) {
+		cerr << "Erro ao abrir o arquivo " << arquivoTexto << " !" << endl;
+		return fornecedores;
+	}
+	string linha;
+	while (getline(lerArquivo, linha)) {
+		fornecedores.push_back(linha);
+	}
+	lerArquivo.close();
+	return fornecedores;
+}
 
+void salvarFornecedores(const vector<string>& fornecedores, const string& arquivoTexto) {
+	ofstream salvarArquivo(arquivoTexto, ios::out);
+	if (!salvarArquivo) {
+		cerr << "Erro ao abrir o arquivo " << arquivoTexto << " !" << endl;
+		return;
+	}
+	for (const auto& fornecedor : fornecedores) {
+		salvarArquivo << fornecedor << endl;
+	}
+	salvarArquivo.close();
 
+}
 
+void cadastraFornecedor() {
+	string nomeArquivo = "fornecedores.txt";
+	vector<string> fornecedores = carregarFornecedores(nomeArquivo);
+	string nomeFornecedor, cnpjFornecedor;
+	
+	cin.ignore();
+	cout << "\nInforme o nome do fornecedor: ";
+	getline(cin, nomeFornecedor);
+	cout << "Informe o CNPJ do fornecedor: ";
+	getline(cin, cnpjFornecedor);
+	
+	bool fornecedorExistente = false;
+
+	for (auto& fornecedor : fornecedores) {
+		istringstream iss(fornecedor);
+		string nomeFornecedorExistente, cnpjFornecedorExistente;
+		if (getline(iss, nomeFornecedorExistente, ';') && getline(iss, cnpjFornecedorExistente, ';')) {
+			if (nomeFornecedorExistente == nomeFornecedor && cnpjFornecedor == cnpjFornecedor) {
+				fornecedor = nomeFornecedorExistente + ";" + cnpjFornecedorExistente;
+				fornecedorExistente = true;
+				break;
+			}
+		}
+	}
+	if (!fornecedorExistente) {
+		string novoFornecedor = nomeFornecedor + ";" + cnpjFornecedor;
+		fornecedores.push_back(novoFornecedor);
+	}
+	salvarFornecedores(fornecedores, nomeArquivo);
+
+	if (fornecedorExistente) {
+		cout << "\nFornecedor " << nomeFornecedor << " já existe na base de dados!\n" << endl;
+	}
+	else {
+		cout << "\nFornecedor " << nomeFornecedor << " cadastrado com sucesso!\n" << endl;
+	}
+	Sleep(3000);
+	system("cls");
+}
