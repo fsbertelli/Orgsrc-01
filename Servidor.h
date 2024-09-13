@@ -45,10 +45,17 @@ void reportForncedores() {
 		istringstream iss(fornecedor);
 		string nomeFornecedorExistente, cnpjFornecedorExistente;
 		if (getline(iss, nomeFornecedorExistente, ';') && getline(iss, cnpjFornecedorExistente, ';')) {
-			cout << nomeFornecedorExistente << " " << cnpjFornecedorExistente << endl;
+			system("cls");
+			cout << "Fornecedor" << "                               " << "CNPJ";
+			cout << "\n" << nomeFornecedorExistente << " -" << cnpjFornecedorExistente << endl;
 			break;
 		}
 	}
+	cout << "\n";
+	system("pause");
+	system("cls");
+	
+
 }
 void reportClientes() {
 	string nomeArquivo = "dados/clientes.txt";
@@ -58,8 +65,13 @@ void reportClientes() {
 		istringstream iss(cliente);
 		string nomeClienteExistente, cpfClienteExistente;
 		if (getline(iss, nomeClienteExistente, ';') && getline(iss, cpfClienteExistente, ';')) {
-			cout << nomeClienteExistente << " " << cpfClienteExistente << endl;
+			system("cls");
+			cout << "Nome" << "               " << "CPF";
+			cout << "\n" << nomeClienteExistente << " - " << cpfClienteExistente << endl;
 			break;
 		}
 	}
+	cout << "\n";
+	system("pause");
+	system("cls");
 }
