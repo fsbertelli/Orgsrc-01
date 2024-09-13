@@ -65,10 +65,9 @@ int main()
 				{
 				case '1':
 					cout << "\nEfetuar Venda";
-					efetuarVenda();
 					break;
 				case '2':
-					cout << "\nCadastrar Cliente";
+					cadastraClientes();
 					break;
 				case '0':
 					system("cls");

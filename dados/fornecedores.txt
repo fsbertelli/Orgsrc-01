@@ -1,3 +1,6 @@
 XPTO Produtor de Frutas Exoticas LTDA;32.127.089/0001-48
 Cleytinho dos Santos Tomateiro;38.839.410/0001-01
 Frutazon Distribuidora Ltda;12.345.678/0001-90
+Tropicalis Frutas do Brasil Ltda;98.765.432/0001-10
+Viva Frutas e Verduras Ltda;23.456.789/0001-65
+HortiFrutas Express Ltda;56.789.123/0001-87

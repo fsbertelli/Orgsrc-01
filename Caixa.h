@@ -3,7 +3,9 @@
 #include <chrono>
 #include <iomanip>
 #include <ctime>
-#include <cstdlib>
+#include <cstdlib> 
+#include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -34,42 +36,71 @@ void printCaixa() {
     cout << "\nLast login: " << put_time(&local_tm, "%a %b %d %H:%M:%S %Y") << " from 127.0.0.1\n";
 }
 
-void cadastraCliente() {
-    ofstream outFile("clientes.txt", ios::app);
-    string nomeCliente, codCliente, cpfCliente;
-    cout << "Cadastro de Cliente\n";
-    cout << "Informe o código do Cliente (Histograma Face Recognition): ";
-    cin >> codCliente;
-    cout << "Informe o nome do  Cliente: ";
-    cin >> nomeCliente;
-    cout << "Informe o CPF do cliente: ";
-    cin >> cpfCliente;
-    if (!outFile) {
-        cerr << "Falha ao cadastrar cliente." << endl;
-    }
-    outFile << codCliente << "," << nomeCliente << "," << cpfCliente << endl;
-    outFile.close();
-    cout << "\nO cliente registrado com sucesso no arquivo clientes.txt" << endl;
+vector<string> carregarClientes(const string& arquivoTexto) {
+	vector<string> clientes;
+	ifstream lerArquivo(arquivoTexto);
+	if (!lerArquivo) {
+		cerr << "Erro ao abrir o arquivo " << arquivoTexto << " !" << endl;
+		return clientes;
+	}
+	string linha;
+	while (getline(lerArquivo, linha)) {
+		clientes.push_back(linha);
+	}
+	lerArquivo.close();
+	return clientes;
 }
 
-void efetuarVenda() {
-    ofstream outFile("vendas.txt", ios::app);
-    string codCliente, nomeCliente, codProduto, descProduto;
-    int qtyProduto, total = 0;
-    cout << "efetuarVenda\n";
-    cout << "Informe o código do produto: ";
-    cin >> codProduto;
-    cout << "Informe a quantidade do produto: ";
-    cin >> qtyProduto;
-    total = qtyProduto * 1;
-    if (!outFile) {
-        cerr << "Falha ao registrar venda.";
-    }
-    outFile << codCliente << "," << nomeCliente << "," << codProduto << "," << descProduto << "," << qtyProduto << "," << total << endl;
-    outFile.close();
-    cout << "Venda registrada com sucesso no arquivo vendas.txt" << endl;
-    //TODO Listar produto e buscar o preço qty * price
-    system("exit");
+void salvarClientes(const vector<string>& clientes, const string& arquivoTexto) {
+	ofstream salvarArquivo(arquivoTexto, ios::out);
+	if (!salvarArquivo) {
+		cerr << "Erro ao abrir o arquivo " << arquivoTexto << " !" << endl;
+		return;
+	}
+	for (const auto& fornecedor : clientes) {
+		salvarArquivo << fornecedor << endl;
+	}
+	salvarArquivo.close();
+
 }
 
-#pragma once
+void cadastraClientes() {
+	system("cls");
+	string nomeArquivo = "dados/clientes.txt";
+	vector<string> clientes = carregarClientes(nomeArquivo);
+	string nomeCliente, cpfCliente;
+
+	cin.ignore();
+	cout << "\nInforme o nome do cliente: ";
+	getline(cin, nomeCliente);
+	cout << "Informe o CPF do cliente: ";
+	getline(cin, cpfCliente);
+
+	bool clienteExistente = false;
+
+	for (auto& cliente : clientes) {
+		istringstream iss(cliente);
+		string nomeClienteExistente, cpfClienteExistente;
+		if (getline(iss, nomeClienteExistente, ';') && getline(iss, cpfClienteExistente, ';')) {
+			if (nomeClienteExistente == nomeCliente && cpfClienteExistente == cpfCliente) {
+				cliente = nomeClienteExistente + ";" + cpfClienteExistente;
+				clienteExistente = true;
+				break;
+			}
+		}
+	}
+	if (!clienteExistente) {
+		string novoCliente = nomeCliente + ";" + cpfCliente;
+		clientes.push_back(novoCliente);
+	}
+	salvarClientes(clientes, nomeArquivo);
+
+	if (clienteExistente) {
+		cout << "\Cliente " << nomeCliente << " já existe na base de dados!" << endl;
+	}
+	else {
+		cout << "\Cliente " << nomeCliente << " cadastrado com sucesso! Consulte em: " << nomeArquivo << endl;
+	}
+	Sleep(3000);
+	system("cls");
+}

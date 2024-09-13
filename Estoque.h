@@ -80,16 +80,15 @@ void salvarProdutos(const vector<string>& produtos, const string& arquivoTexto) 
 }
 
 void cadastraProduto() {
-	string nomeArquivo = "produtos.txt";
+	system("cls");
+	string nomeArquivo = "dados/produtos.txt";
 	vector<string> produtos = carregarProdutos(nomeArquivo);
-	string descProduto, codProduto;
+	string descProduto;
 	int qtyProduto;
 	float precoProduto, pesoProduto;
 
 	cin.ignore();
-	cout << "\nInforme o código do produto: ";
-	cin >> codProduto;
-	cout << "Informe a descrição do produto: ";
+	cout << "Informe o nome do produto: ";
 	getline(cin, descProduto);
 	cout << "Informe a quantidade de produto: ";
 	while (true) {
@@ -104,8 +103,7 @@ void cadastraProduto() {
 			break;  
 		}
 	}
-
-	cout << "Informe o preço do produto: " << endl;
+	cout << "Informe o preço do produto: ";
 	while (true) {
 		cin >> precoProduto;
 		if (cin.fail()) {
@@ -118,7 +116,7 @@ void cadastraProduto() {
 			break; 
 		}
 	}
-	cout << "Informe o peso do produto: " << endl;
+	cout << "Informe o peso do produto: ";
 	while (true) {
 		cin >> pesoProduto;
 		if (cin.fail()) {
@@ -136,9 +134,8 @@ void cadastraProduto() {
 
 	for (auto& produto : produtos) {
 		istringstream iss(produto);
-		string codExistente, descExistente, qtyExistenteStr, precoExistenteStr, pesoExistenteStr;
-		if (getline(iss, codExistente, ';') &&
-			getline(iss, descExistente, ';') &&
+		string descExistente, qtyExistenteStr, precoExistenteStr, pesoExistenteStr;
+		if (getline(iss, descExistente, ';') &&
 			getline(iss, qtyExistenteStr, ';') &&
 			getline(iss, precoExistenteStr, ';') &&
 			getline(iss, pesoExistenteStr, ';')) {
@@ -148,7 +145,7 @@ void cadastraProduto() {
 				quantidadeExistente += qtyProduto;
 				int pesoExistente = stoi(pesoExistenteStr);
 				pesoExistente += pesoProduto;
-				produto = codExistente + ";" + descExistente + ";" + to_string(qtyProduto) + ";" + to_string(precoProduto) + ";" + 
+				produto = descExistente + ";" + to_string(qtyProduto) + ";" + to_string(precoProduto) + ";" + 
 					to_string(pesoProduto);
 				produtoExistente = true;
 				break;
@@ -156,7 +153,7 @@ void cadastraProduto() {
 		}
 	}
 	if (!produtoExistente) {
-		string novoProduto = codProduto + ";" + descProduto + ";" + to_string(qtyProduto) + ';' + to_string(precoProduto) + ";" + 
+		string novoProduto = descProduto + ";" + to_string(qtyProduto) + ';' + to_string(precoProduto) + ";" + 
 			to_string(pesoProduto);
 		produtos.push_back(novoProduto);
 	}
@@ -166,7 +163,7 @@ void cadastraProduto() {
 		cout << "\nQuantidade atualizada para o produto " << descProduto << " existente.\n";
 	}
 	else {
-		cout << "\nProduto " << descProduto << " cadastrado com sucesso!\n";
+		cout << "\nProduto " << descProduto << " cadastrado com sucesso! Consulte em: " << nomeArquivo << "\n";
 	}
 	Sleep(3000);
 	system("cls");
@@ -201,7 +198,8 @@ void salvarFornecedores(const vector<string>& fornecedores, const string& arquiv
 }
 
 void cadastraFornecedor() {
-	string nomeArquivo = "fornecedores.txt";
+	system("cls");
+	string nomeArquivo = "dados/fornecedores.txt";
 	vector<string> fornecedores = carregarFornecedores(nomeArquivo);
 	string nomeFornecedor, cnpjFornecedor;
 	
@@ -217,7 +215,7 @@ void cadastraFornecedor() {
 		istringstream iss(fornecedor);
 		string nomeFornecedorExistente, cnpjFornecedorExistente;
 		if (getline(iss, nomeFornecedorExistente, ';') && getline(iss, cnpjFornecedorExistente, ';')) {
-			if (nomeFornecedorExistente == nomeFornecedor && cnpjFornecedor == cnpjFornecedor) {
+			if (nomeFornecedorExistente == nomeFornecedor && cnpjFornecedorExistente == cnpjFornecedor) {
 				fornecedor = nomeFornecedorExistente + ";" + cnpjFornecedorExistente;
 				fornecedorExistente = true;
 				break;
@@ -231,10 +229,10 @@ void cadastraFornecedor() {
 	salvarFornecedores(fornecedores, nomeArquivo);
 
 	if (fornecedorExistente) {
-		cout << "\nFornecedor " << nomeFornecedor << " já existe na base de dados!\n" << endl;
+		cout << "\nFornecedor " << nomeFornecedor << " já existe na base de dados!" << endl;
 	}
 	else {
-		cout << "\nFornecedor " << nomeFornecedor << " cadastrado com sucesso!\n" << endl;
+		cout << "\nFornecedor " << nomeFornecedor << " cadastrado com sucesso! Consulte em: " << nomeArquivo << endl;
 	}
 	Sleep(3000);
 	system("cls");
