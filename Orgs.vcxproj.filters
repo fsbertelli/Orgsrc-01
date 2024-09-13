@@ -18,9 +18,6 @@
     <ClCompile Include="Orgs.cpp">
       <Filter>Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="Estoque.cpp">
-      <Filter>Arquivos de Origem</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Estoque.h">
@@ -31,6 +28,9 @@
     </ClInclude>
     <ClInclude Include="Caixa.h">
       <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Servidor.h">
+      <Filter>Arquivos de Origem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

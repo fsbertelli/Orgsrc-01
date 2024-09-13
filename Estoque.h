@@ -4,111 +4,236 @@
 #include <iomanip>
 #include <ctime>
 #include <cstdlib> 
+#include <vector>
+#include <sstream>
 
 using namespace std;
 
+
 void printEstoque() {
-    system("cls");
-    cout << "Welcome to Ubuntu 18.04.6 LTS (GNU/Linux 4.9.140-tegra aarch64)\n\n";
-    cout << " * Documentation:  https://help.ubuntu.com\n";
-    cout << " * Management:     https://landscape.canonical.com\n";
-    cout << " * Support:        https://ubuntu.com/advantage\n";
-    cout << "This system has been minimized by removing packages and content that are\n";
-    cout << "not required on a system that users do not log into.\n\n";
-    cout << "To restore this content, you can run the 'unminimize' command.\n\n";
-    cout << "432 updates can be applied immediately.\n";
-    cout << "248 of these updates are standard security updates.\n";
-    cout << "To see these additional updates run: apt list --upgradable\n\n";
+	system("cls");
+	cout << "Welcome to Ubuntu 18.04.6 LTS (GNU/Linux 4.9.140-tegra aarch64)\n\n";
+	cout << " * Documentation:  https://help.ubuntu.com\n";
+	cout << " * Management:     https://landscape.canonical.com\n";
+	cout << " * Support:        https://ubuntu.com/advantage\n";
+	cout << "This system has been minimized by removing packages and content that are\n";
+	cout << "not required on a system that users do not log into.\n\n";
+	cout << "To restore this content, you can run the 'unminimize' command.\n\n";
+	cout << "432 updates can be applied immediately.\n";
+	cout << "248 of these updates are standard security updates.\n";
+	cout << "To see these additional updates run: apt list --upgradable\n\n";
+	cout << "#######  #####  ####### #######  #####  #     # ####### " << endl;
+	cout << "#       #     #    #    #     # #     # #     # #       " << endl;
+	cout << "#       #          #    #     # #     # #     # #       " << endl;
+	cout << "#####    #####     #    #     # #     # #     # #####   " << endl;
+	cout << "#             #    #    #     # #   # # #     # #       " << endl;
+	cout << "#       #     #    #    #     # #    #  #     # #       " << endl;
+	cout << "#######  #####     #    #######  #### #  #####  ####### " << endl;
 
-    cout << "   \n";
+	auto now = chrono::system_clock::now();
+	time_t now_c = chrono::system_clock::to_time_t(now);
+	tm local_tm;
+	localtime_s(&local_tm, &now_c);
+	cout << "\nLast login: " << put_time(&local_tm, "%a %b %d %H:%M:%S %Y") << " from 127.0.0.1\n";
+}
 
+/*
+----vector<string>----
+ifstream -> método que carrega o arquivo produtos.txt, é realizada uma  verificação e caso haja um erro na abertura do arquivo, a condição retornará um vetor vazio.
+getline -> lê linha a linha do arquivo e adicionada cada linha ao vetor produtos por meio do método push_back.
+& -> garante que as alterações sejam realiadas em uma referência do objeto arquivoTexto, sem o & seria uma cópia do objeto. Ou seja, estou trabalhando com o endereço de memória da variável em vez de uma cópia dela tornando o algorítimo mais performático.
+Por fim retorna o vetor de produtos cadastrados no arquivo produtos.txt
+*/
+vector<string> carregarProdutos(const string& arquivoTexto) {
+	vector<string> produtos;
+	ifstream lerArquivo(arquivoTexto);
+	if (!lerArquivo) {
+		cerr << "Erro ao abrir o arquivo " << arquivoTexto << " !" << endl;
+		return produtos;
+	}
+	string linha;
+	while (getline(lerArquivo, linha)) {
+		produtos.push_back(linha);
+	}
+	lerArquivo.close();
+	return produtos;
+}
+/*
+----salvarProdutos----
+ofstream -> método que abre o arquivo produtos.txt para escrever novos dados. O atributo ios::out garanque que os novos dados sejam salvos no arquivo.
+if -> faz a verificação se o arquivo foi aberto corretamente, caso haja algum problema, retornará vazio.
+for -> corre o vetor produtos (para cada produto no vetor produtos) e o atributo auto permite que o compilador deduza o tipo da variável produto a partir do vetor produtos
+& -> garante que as alterações sejam realiadas em uma referência do vetor, sem o & seria uma cópia do vetor.
+Por fim o método .close() garante que o arquivo seja fechado corretamente
+*/
+void salvarProdutos(const vector<string>& produtos, const string& arquivoTexto) {
+	ofstream salvarArquivo(arquivoTexto, ios::out);
+	if (!salvarArquivo) {
+		cerr << "Erro ao abrir o arquivo " << arquivoTexto << " !" << endl;
+		return;
+	}
+	for (const auto& produto : produtos) {
+		salvarArquivo << produto << endl;
+	}
+	salvarArquivo.close();
 
-    auto now = chrono::system_clock::now();
-    time_t now_c = chrono::system_clock::to_time_t(now);
-    tm local_tm;
-    localtime_s(&local_tm, &now_c);
-    cout << "\nLast login: " << put_time(&local_tm, "%a %b %d %H:%M:%S %Y") << " from 127.0.0.1\n";
 }
-void cadastraFornecedor() {
-    ofstream outFile("fornecedores.txt", ios::app);
-    string nomeFornecedor, codFornecedor, cnpjFornecedor;
-    cout << "------------------------\n";
-    cout << "|Cadastro de Fornecedor|\n";
-    cout << "------------------------\n";
-    cout << "Informe o código do Fornecedor: ";
-    cin >> codFornecedor;
-    cout << "Informe o nome do Fornecedor: ";
-    cin >> nomeFornecedor;
-    cout << "Informe o CNPJ do Fornecedor: ";
-    cin >> cnpjFornecedor;
-    if (!outFile) {
-        cerr << "Falha ao cadastrar fornecedor." << endl;
-    }
-    outFile << codFornecedor << "," << nomeFornecedor << "," << cnpjFornecedor << endl;
-    outFile.close();
-    cout << "\nO fornecedor registrado com sucesso no arquivo fornecedores.txt" << endl;
-}
-void cadastraCliente() {
-    ofstream outFile("clientes.txt", ios::app);
-    string nomeCliente, codCliente, cpfCliente;
-    cout << "Cadastro de Cliente\n";
-    cout << "Informe o código do Cliente (Histograma Face Recognition): ";
-    cin >> codCliente;
-    cout << "Informe o nome do  Cliente: ";
-    cin >> nomeCliente;
-    cout << "Informe o CPF do cliente: ";
-    cin >> cpfCliente;
-    if (!outFile) {
-        cerr << "Falha ao cadastrar cliente." << endl;
-    }
-    outFile << codCliente << "," << nomeCliente << "," << cpfCliente << endl;
-    outFile.close();
-    cout << "\nO cliente registrado com sucesso no arquivo clientes.txt" << endl;
-}
+
 void cadastraProduto() {
-    ofstream outFile("produtos.txt", ios::app);
-    cout << "cadastraProduto\n";
-    int qtyProduto, precoProduto;
-    string descProduto, codProduto;
-    cout << "Informe o código do produto: ";
-    cin >> codProduto;
-    cout << "Informe a descrição do produto: ";
-    cin >> descProduto;
-    cout << "Informe a quantidade de produto: ";
-    cin >> qtyProduto;
-    cout << "Informe o preço do produto: ";
-    cin >> precoProduto;
-    if (!outFile) {
-        cerr << "Falha ao cadastrar produto." << endl;
-    }
-    outFile << codProduto << "," << descProduto << "," << qtyProduto << "," << precoProduto << endl;
-    outFile.close();
-    cout << "\nO produto registrado com sucesso no arquivo produtos.txt" << endl;
+	system("cls");
+	string nomeArquivo = "dados/produtos.txt";
+	vector<string> produtos = carregarProdutos(nomeArquivo);
+	string descProduto;
+	int qtyProduto;
+	float precoProduto, pesoProduto;
+
+	cin.ignore();
+	cout << "Informe o nome do produto: ";
+	getline(cin, descProduto);
+	cout << "Informe a quantidade de produto: ";
+	while (true) {
+		cin >> qtyProduto;
+		if (cin.fail()) {
+			cin.clear();
+			cout << "\nEntrada inválida. A quantidade de produto deve ter do tipo inteiro: ";
+			string temp;
+			cin >> temp; 
+		}
+		else {
+			break;  
+		}
+	}
+	cout << "Informe o preço do produto: ";
+	while (true) {
+		cin >> precoProduto;
+		if (cin.fail()) {
+			cin.clear();
+			cout << "\nEntrada inválida. O preco do produto deve ter do tipo decimal: ";
+			string temp;
+			cin >> temp; 
+		}
+		else {
+			break; 
+		}
+	}
+	cout << "Informe o peso do produto: ";
+	while (true) {
+		cin >> pesoProduto;
+		if (cin.fail()) {
+			cin.clear();
+			cout << "\nEntrada inválida. O peso do produto deve ter do tipo decimal: ";
+			string temp;
+			cin >> temp; 
+		}
+		else {
+			break;  
+		}
+	}
+
+	bool produtoExistente = false;
+
+	for (auto& produto : produtos) {
+		istringstream iss(produto);
+		string descExistente, qtyExistenteStr, precoExistenteStr, pesoExistenteStr;
+		if (getline(iss, descExistente, ';') &&
+			getline(iss, qtyExistenteStr, ';') &&
+			getline(iss, precoExistenteStr, ';') &&
+			getline(iss, pesoExistenteStr, ';')) {
+
+			if (descExistente == descProduto) {
+				int quantidadeExistente = stoi(qtyExistenteStr);
+				quantidadeExistente += qtyProduto;
+				int pesoExistente = stoi(pesoExistenteStr);
+				pesoExistente += pesoProduto;
+				produto = descExistente + ";" + to_string(qtyProduto) + ";" + to_string(precoProduto) + ";" + 
+					to_string(pesoProduto);
+				produtoExistente = true;
+				break;
+			}
+		}
+	}
+	if (!produtoExistente) {
+		string novoProduto = descProduto + ";" + to_string(qtyProduto) + ';' + to_string(precoProduto) + ";" + 
+			to_string(pesoProduto);
+		produtos.push_back(novoProduto);
+	}
+	salvarProdutos(produtos, nomeArquivo);
+
+	if (produtoExistente) {
+		cout << "\nQuantidade atualizada para o produto " << descProduto << " existente.\n";
+	}
+	else {
+		cout << "\nProduto " << descProduto << " cadastrado com sucesso! Consulte em: " << nomeArquivo << "\n";
+	}
+	Sleep(3000);
+	system("cls");
 }
 
-void menu() {
-    while (true) {
-        int option;
-        cout << "\nBem vindo ao sistema Hortis!\n\n";
-        cout << "Informe via teclado a opcao desejada.\n\n";
-        cout << "1 - Cadastro de Fornecedor.\n2 - Cadastro de Cliente.\n3 - Cadastro de Produto\n0 - Sair da aplicacao.\n";
-        cin >> option;
-        if (!option) {
-            exit(0);
-        }
-        else {
-            switch (option) {
-            case 1:
-                cadastraFornecedor();
-                break;
-            case 2:
-                cadastraCliente();
-                break;
-            case 3:
-                cadastraProduto();
-                break;
-            }
-        }
-    }
+vector<string> carregarFornecedores(const string& arquivoTexto) {
+	vector<string> fornecedores;
+	ifstream lerArquivo(arquivoTexto);
+	if (!lerArquivo) {
+		cerr << "Erro ao abrir o arquivo " << arquivoTexto << " !" << endl;
+		return fornecedores;
+	}
+	string linha;
+	while (getline(lerArquivo, linha)) {
+		fornecedores.push_back(linha);
+	}
+	lerArquivo.close();
+	return fornecedores;
 }
-#pragma once
+
+void salvarFornecedores(const vector<string>& fornecedores, const string& arquivoTexto) {
+	ofstream salvarArquivo(arquivoTexto, ios::out);
+	if (!salvarArquivo) {
+		cerr << "Erro ao abrir o arquivo " << arquivoTexto << " !" << endl;
+		return;
+	}
+	for (const auto& fornecedor : fornecedores) {
+		salvarArquivo << fornecedor << endl;
+	}
+	salvarArquivo.close();
+
+}
+
+void cadastraFornecedor() {
+	system("cls");
+	string nomeArquivo = "dados/fornecedores.txt";
+	vector<string> fornecedores = carregarFornecedores(nomeArquivo);
+	string nomeFornecedor, cnpjFornecedor;
+	
+	cin.ignore();
+	cout << "\nInforme o nome do fornecedor: ";
+	getline(cin, nomeFornecedor);
+	cout << "Informe o CNPJ do fornecedor: ";
+	getline(cin, cnpjFornecedor);
+	
+	bool fornecedorExistente = false;
+
+	for (auto& fornecedor : fornecedores) {
+		istringstream iss(fornecedor);
+		string nomeFornecedorExistente, cnpjFornecedorExistente;
+		if (getline(iss, nomeFornecedorExistente, ';') && getline(iss, cnpjFornecedorExistente, ';')) {
+			if (nomeFornecedorExistente == nomeFornecedor && cnpjFornecedorExistente == cnpjFornecedor) {
+				fornecedor = nomeFornecedorExistente + ";" + cnpjFornecedorExistente;
+				fornecedorExistente = true;
+				break;
+			}
+		}
+	}
+	if (!fornecedorExistente) {
+		string novoFornecedor = nomeFornecedor + ";" + cnpjFornecedor;
+		fornecedores.push_back(novoFornecedor);
+	}
+	salvarFornecedores(fornecedores, nomeArquivo);
+
+	if (fornecedorExistente) {
+		cout << "\nFornecedor " << nomeFornecedor << " já existe na base de dados!" << endl;
+	}
+	else {
+		cout << "\nFornecedor " << nomeFornecedor << " cadastrado com sucesso! Consulte em: " << nomeArquivo << endl;
+	}
+	Sleep(3000);
+	system("cls");
+}
