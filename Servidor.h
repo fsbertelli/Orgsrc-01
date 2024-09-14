@@ -34,9 +34,27 @@ void printServidor() {
 	cout << "\nLast login: " << put_time(&local_tm, "%a %b %d %H:%M:%S %Y") << " from 127.0.0.1\n";
 }
 //@TODO
-void reportProdutos() {}
+void reportProdutos() {
+	string nomeArquivo = "dados/produtos.txt";
+	vector<string> produtos = carregarProdutos(nomeArquivo);
+	for (auto& produto : produtos) {
+		istringstream iss(produto);
+		string descExistente, qtyExistenteStr, precoExistenteStr, pesoExistenteStr;
+		if (getline(iss, descExistente, ';') &&
+			getline(iss, qtyExistenteStr, ';') &&
+			getline(iss, precoExistenteStr, ';') &&
+			getline(iss, pesoExistenteStr, ';')) {
+			system("cls");
+			cout << descExistente << " " << qtyExistenteStr << " " << precoExistenteStr << " " << pesoExistenteStr;
+		}
+	}
+	cout << "\n\n";
+	system("pause");
+	system("cls");
+}
 //@TODO
-void reportVendas() {}
+//void reportVendas() {}
+
 void reportForncedores() {
 	string nomeArquivo = "dados/fornecedores.txt";
 	vector<string> fornecedores = carregarClientes(nomeArquivo);
@@ -45,10 +63,14 @@ void reportForncedores() {
 		istringstream iss(fornecedor);
 		string nomeFornecedorExistente, cnpjFornecedorExistente;
 		if (getline(iss, nomeFornecedorExistente, ';') && getline(iss, cnpjFornecedorExistente, ';')) {
+			system("cls");
 			cout << nomeFornecedorExistente << " " << cnpjFornecedorExistente << endl;
 			break;
 		}
 	}
+	cout << "\n";
+	system("pause");
+	system("cls");
 }
 void reportClientes() {
 	string nomeArquivo = "dados/clientes.txt";
@@ -58,8 +80,12 @@ void reportClientes() {
 		istringstream iss(cliente);
 		string nomeClienteExistente, cpfClienteExistente;
 		if (getline(iss, nomeClienteExistente, ';') && getline(iss, cpfClienteExistente, ';')) {
+			system("cls");
 			cout << nomeClienteExistente << " " << cpfClienteExistente << endl;
 			break;
 		}
 	}
+	cout << "\n";
+	system("pause");
+	system("cls");
 }

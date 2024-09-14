@@ -99,10 +99,11 @@ void cadastraClientes() {
 		cout << "\Cliente " << nomeCliente << " já existe na base de dados!" << endl;
 	}
 	else {
-		cout << "\Cliente " << nomeCliente << " cadastrado com sucesso! Consulte em: " << nomeArquivo << endl;
+		cout << "\Cliente " << nomeCliente << " cadastrado com sucesso! Consulte em: " << nomeArquivo;
+		cout << "\n\n";
 	}
-	Sleep(3000);
-	system("cls");
+	system("pause");
+	system("cls");;
 }
 
 void efetuarVenda() {

@@ -165,7 +165,8 @@ void cadastraProduto() {
 	else {
 		cout << "\nProduto " << descProduto << " cadastrado com sucesso! Consulte em: " << nomeArquivo << "\n";
 	}
-	Sleep(3000);
+	cout << "\n\n";
+	system("pause");
 	system("cls");
 }
 
@@ -234,6 +235,7 @@ void cadastraFornecedor() {
 	else {
 		cout << "\nFornecedor " << nomeFornecedor << " cadastrado com sucesso! Consulte em: " << nomeArquivo << endl;
 	}
-	Sleep(3000);
+	cout << "\n\n";
+	system("pause");
 	system("cls");
 }

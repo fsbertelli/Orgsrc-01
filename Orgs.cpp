@@ -31,16 +31,16 @@ int main()
 				switch (option)
 				{
 				case '1':
-					cout << "\nGerar relatorio de estoque";
+					reportProdutos();
 					break;
 				case '2':
 					cout << "\nGerar relatorio de vendas";
 					break;
 				case '3':
-					cout << "\nGerar lista de fornecedores";
+					reportForncedores();
 					break;
 				case '4':
-					cout << "\nGerar lista de clientes";
+					reportClientes();
 					break;
 				case '0':
 					system("cls");
