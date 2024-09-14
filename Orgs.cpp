@@ -37,10 +37,10 @@ int main()
 					cout << "\nGerar relatorio de vendas";
 					break;
 				case '3':
-					reportForncedores();
+					cout << "\nGerar lista de fornecedores";
 					break;
 				case '4':
-					reportClientes();
+					cout << "\nGerar lista de clientes";
 					break;
 				case '0':
 					system("cls");
